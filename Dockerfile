@@ -27,15 +27,11 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-ge
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# RUN set -e; \
-#   ln -s /bin/podman /bin/docker; \
-#   ln -s /usr/bin/podman-compose /usr/local/bin/docker-compose
-
-# # podman specific configuration
-# RUN set -e; \
-#   echo 'unqualified-search-registries = ["docker.io"]' > /etc/containers/registries.conf.d/docker-io.conf; \
-#   update-alternatives --set iptables /usr/sbin/iptables-legacy; \
-#   update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+# https://coder.com/blog/self-hosted-remote-development-in-jetbrains-ides-now-available-to-coder-users
+# https://www.jetbrains.com/de-de/idea/download/other.html
+RUN set -e; \
+  mkdir -p /opt/idea; \
+  curl -L "https://download.jetbrains.com/idea/ideaIU-2023.2.tar.gz" | tar -C /opt/idea --strip-components=1 -xzvf -
 
 # https://hub.docker.com/_/docker/tags
 COPY --from=docker:24.0.6-cli /usr/local/bin/docker /usr/local/bin/docker-compose /usr/local/bin/
@@ -71,10 +67,6 @@ RUN set -e; \
 # https://github.com/coder/code-server/releases
 ARG CODE_SERVER_VERSION=4.16.1
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION}
-
-# RUN set -e; \
-#   mkdir -p /opt/idea; \
-#   curl -L "https://download.jetbrains.com/idea/ideaIU-2023.2.tar.gz" | tar -C /opt/idea --strip-components=1 -xzvf -
 
 COPY helpers /helpers
 
