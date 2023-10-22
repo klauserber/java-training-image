@@ -27,11 +27,11 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-ge
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# https://coder.com/blog/self-hosted-remote-development-in-jetbrains-ides-now-available-to-coder-users
-# https://www.jetbrains.com/de-de/idea/download/other.html
-RUN set -e; \
-  mkdir -p /opt/idea; \
-  curl -L "https://download.jetbrains.com/idea/ideaIU-2023.2.3.tar.gz" | tar -C /opt/idea --strip-components=1 -xzvf -
+# # https://coder.com/blog/self-hosted-remote-development-in-jetbrains-ides-now-available-to-coder-users
+# # https://www.jetbrains.com/de-de/idea/download/other.html
+# RUN set -e; \
+#   mkdir -p /opt/idea; \
+#   curl -L "https://download.jetbrains.com/idea/ideaIU-2023.2.3.tar.gz" | tar -C /opt/idea --strip-components=1 -xzvf -
 
 # https://hub.docker.com/_/docker/tags
 COPY --from=docker:24.0.6-cli /usr/local/bin/docker /usr/local/bin/docker-compose /usr/local/bin/
