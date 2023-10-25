@@ -27,12 +27,6 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-ge
     python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-# # https://coder.com/blog/self-hosted-remote-development-in-jetbrains-ides-now-available-to-coder-users
-# # https://www.jetbrains.com/de-de/idea/download/other.html
-# RUN set -e; \
-#   mkdir -p /opt/idea; \
-#   curl -L "https://download.jetbrains.com/idea/ideaIU-2023.2.3.tar.gz" | tar -C /opt/idea --strip-components=1 -xzvf -
-
 # https://hub.docker.com/_/docker/tags
 COPY --from=docker:24.0.6-cli /usr/local/bin/docker /usr/local/bin/docker-compose /usr/local/bin/
 # https://hub.docker.com/r/docker/buildx-bin/tags
@@ -61,13 +55,6 @@ RUN set -e; \
   chmod +x /usr/local/bin/helm; \
   rm -rf ${TARGETOS}-${TARGETARCH} helm.tar.gz
 
-# # Install buildx
-# COPY --from=docker/buildx-bin:latest /buildx /usr/libexec/docker/cli-plugins/docker-buildx
-
-# https://github.com/coder/code-server/releases
-ARG CODE_SERVER_VERSION=4.16.1
-RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION}
-
 COPY helpers /helpers
 
 RUN useradd coder \
@@ -78,7 +65,6 @@ RUN useradd coder \
       echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
 
 RUN mkdir /run/sshd
-
 
 COPY bashrc.sh /tmp/
 RUN set -e; \
@@ -98,6 +84,3 @@ ENV PATH=${HOME}/.local/bin:${HOME}/bin:${PATH}
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ENV LANGUAGE=en_US:en
-
-ENTRYPOINT ["code-server"]
-CMD [ "--auth=none", "--bind-addr=0.0.0.0:8080" ]
