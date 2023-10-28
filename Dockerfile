@@ -4,6 +4,7 @@ ARG TARGETARCH=amd64
 ARG TARGETOS=linux
 
 ENV JAVA_HOME=/opt/java/openjdk
+ENV LP_HOSTNAME_ALWAYS=-1
 
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-get install -y \
     ca-certificates \
@@ -21,10 +22,7 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-ge
     gettext-base \
     bash-completion \
     zip \
-    # openjdk-17-jdk \
-    # openjdk-17-jre \
-    python3 \
-    python3-pip \
+    liquidprompt \
  && rm -rf /var/lib/apt/lists/*
 
 # https://hub.docker.com/_/docker/tags
