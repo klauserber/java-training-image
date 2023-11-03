@@ -4,7 +4,6 @@ ARG TARGETARCH=amd64
 ARG TARGETOS=linux
 
 ENV JAVA_HOME=/opt/java/openjdk
-ENV LP_HOSTNAME_ALWAYS=-1
 
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Europe/Berlin" apt-get install -y \
     ca-certificates \
@@ -82,3 +81,6 @@ ENV PATH=${HOME}/.local/bin:${HOME}/bin:${PATH}
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 ENV LANGUAGE=en_US:en
+
+ENV LP_ENABLE_RUNTIME=0
+ENV LP_HOSTNAME_ALWAYS=-1
